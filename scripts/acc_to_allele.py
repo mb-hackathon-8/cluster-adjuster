@@ -21,14 +21,37 @@ import time
 import os 
 import traceback
 import sys 
+import csv
 
 def main(args):
     print(args)
-
-    with open(args.srr_file):
-        srr_list = [x.strip() for x in srr_file.readline()]
-        
-
+    srr_file  = args.srr_file
+    with open(args.srr_file) as f:
+        srr_list = [x.strip() for x in f.readlines()]
+        print('Check SRR list for cgST a')
+        # Check SRR list for cgST a
+        samples = []
+        for ent in csv.DictReader(open('scripts/entero_all.tsv'), dialect=csv.excel_tab):
+            acc = ent['Data Source(Accession No.;Sequencing Platform;Sequencing Library;Insert Size;Experiment;Status)'].split(';')[0]
+            if acc in srr_list:
+                samples.append(ent)
+        print('open profiles and fetch allele based on cgST ')
+        # open profiles and fetch allele based on cgST 
+        headers = [] 
+        with open('scripts/profiles.list') as z : 
+            headers = z.readline().split('\t')
+        print('alleles')
+        with open('scripts/profiles.list') as z : 
+            out = open(args.output + '.tsv', 'w')
+            out.write('\t'.join(headers)) 
+            for line in z.readlines():
+                row =   line.split('\t')
+                st = row[0]
+                # Write allele table to file 
+                for x in samples: 
+                    if x["ST"]  == st: 
+                        out.write(   '\t'.join([x['Name']] + line.split('\t')[1:]))
+        print('done')
 
 if __name__ == "__main__":
     try:
