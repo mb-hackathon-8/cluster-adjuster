@@ -12,6 +12,8 @@ __pycache__/
 .vscode/
 profiles.list.gz
 profiles.list 
+HCC*
+test*
 # due to using tox and pytest
 .tox
 .cache
