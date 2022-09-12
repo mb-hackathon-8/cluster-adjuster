@@ -10,6 +10,7 @@ __pycache__/
 *~
 .idea/*
 .vscode/
+profiles.list.gz
 # due to using tox and pytest
 .tox
 .cache
