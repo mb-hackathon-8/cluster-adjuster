@@ -43,13 +43,19 @@ def main(args):
         print('alleles')
         with open('scripts/profiles.list') as z : 
             out = open(args.output + '.tsv', 'w')
+            outcc = open(args.output + '.phiercc.tsv', 'w')
             out.write('\t'.join(headers)) 
+            outcc.write('\t'.join(headers)) 
+            known_st = [] 
             for line in z.readlines():
                 row =   line.split('\t')
                 st = row[0]
                 # Write allele table to file 
                 for x in samples: 
                     if x["ST"]  == st: 
+                        if st not in known_st: 
+                            outcc.write('\t'.join([x['ST']] + line.split('\t')[1:]))
+                            known_st.append(st)
                         out.write(   '\t'.join([x['Name']] + line.split('\t')[1:]))
         print('done')
 
