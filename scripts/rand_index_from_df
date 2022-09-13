@@ -1,0 +1,24 @@
+```{r}
+
+#Test Dataframe
+n <- c(seq(1:6))
+v <- c(1,2,3,4,5,6)
+c <-c(1,2,3,3,7)
+
+df <- cbind(n,v,c)
+
+#Extracting vectors from a dataframe used for rand index calculation
+library(fossil)
+pull_rand_from_df <- function(data) {
+  col1 <- data[,2]
+  col2 <- data[,3]
+  
+  output <- rand.index(col1, col2)
+  
+  return(output)
+}
+
+pull_rand_from_df(df)
+
+
+```
